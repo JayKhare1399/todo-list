@@ -18,7 +18,15 @@ const TodoForm = ({ setTodos }) => {
     setInput('');
   };
 
-  return <Form handleChange={handleChange} handleSubmit={handleSubmit} input={input} />;
+  return (
+    <Form
+      handleChange={handleChange}
+      handleSubmit={handleSubmit}
+      input={input}
+      buttonLabel="Create todo"
+      inputPlaceholder="Enter plans!"
+    />
+  );
 };
 
 TodoForm.defaultProps = {

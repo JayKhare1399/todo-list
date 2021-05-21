@@ -7,12 +7,12 @@ const Form = (props) => (
   <form className="todo-form">
     <input
       type="text"
-      placeholder="insert todo"
+      placeholder={props.inputPlaceholder}
       className="todo-input"
       value={props.input}
       onChange={props.handleChange}
     />
-    <Button variant="light" onClick={props.handleSubmit}>Create todo</Button>
+    <Button variant="light" onClick={props.handleSubmit}>{props.buttonLabel}</Button>
   </form>
 );
 
@@ -20,6 +20,8 @@ Form.defaultProps = {
   handleChange: PropTypes.func,
   handleSubmit: PropTypes.func,
   input: PropTypes.string,
+  buttonLabel: PropTypes.string,
+  inputPlaceholder: PropTypes.string,
 };
 
 export default Form;

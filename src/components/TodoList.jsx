@@ -5,9 +5,10 @@ import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import Form from '../common-component/Form';
 
-const TodoList = ({ todos, setTodos }) => {
+const TodoList = ({
+  todos, setTodos, isUnderEdit, setIsUnderEdit,
+}) => {
   const [editValue, setEditValue] = useState({});
-  const [isUnderEdit, setIsUnderEdit] = useState(false);
 
   const deleteTodoHandler = (todo) => {
     todos.splice(todos.findIndex((a) => a.id === todo.id), 1);
@@ -39,7 +40,7 @@ const TodoList = ({ todos, setTodos }) => {
     <ListGroup variant="flush">
       {
         isUnderEdit
-          ? <Form handleChange={handleEdit} handleSubmit={handleEditComplete} input={editValue.details} />
+          ? <Form handleChange={handleEdit} handleSubmit={handleEditComplete} input={editValue.details} buttonLabel="Edit todo" />
           : todos.map((todo) => (
             <div style={{ borderBottom: '1px solid #cfcfcf', height: 30 }}>
               {todo.details}
