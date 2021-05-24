@@ -3,26 +3,26 @@ import PropTypes from 'prop-types';
 import Form from '../common-component/Form';
 
 const TodoForm = ({ setTodos }) => {
-  const [input, setInput] = useState('');
+  const [todoDetails, setTodoDetails] = useState('');
 
-  const handleChange = (e) => setInput(e.target.value);
+  const handleChange = (e) => setTodoDetails(e.target.value);
 
   const handleSubmit = () => {
     setTodos((prevTodos) => [
       ...prevTodos,
       {
         id: prevTodos.length + 1,
-        details: input,
+        details: todoDetails,
       },
     ]);
-    setInput('');
+    setTodoDetails('');
   };
 
   return (
     <Form
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-      input={input}
+      onChange={handleChange}
+      onSubmit={handleSubmit}
+      input={todoDetails}
       buttonLabel="Create todo"
       inputPlaceholder="Enter plans!"
     />

@@ -1,62 +1,66 @@
-/* eslint-disable max-len */
 import React, { useState } from 'react';
-import ListGroup from 'react-bootstrap/ListGroup';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import cx from 'classnames';
 import Form from '../common-component/Form';
+import TodoActions from '../common-component/TodoActions';
+import styles from './TodoList.module.scss';
 
 const TodoList = ({
-  todos, setTodos, isUnderEdit, setIsUnderEdit,
+  todos, setTodos,
 }) => {
-  const [editValue, setEditValue] = useState({});
+  const [updateTodo, setUpdateTodo] = useState({});
 
-  const deleteTodoHandler = (todo) => {
+  const handleDelete = (todo) => {
     todos.splice(todos.findIndex((a) => a.id === todo.id), 1);
     setTodos([...todos]);
   };
 
-  const editTodoHandler = (todo) => {
-    setIsUnderEdit(true);
-    setEditValue({
+  const startUpdate = (todo) => {
+    setUpdateTodo({
       id: todo.id,
       details: todo.details,
     });
   };
 
-  const handleEdit = (e) => {
-    setEditValue((prev) => ({
+  const handleUpdateChange = (e) => {
+    setUpdateTodo((prev) => ({
       id: prev.id,
       details: e.target.value,
     }));
   };
 
-  const handleEditComplete = () => {
-    todos.splice(todos.findIndex((a) => a.id === editValue.id), 1, { id: editValue.id, details: editValue.details });
+  const submitUpdate = () => {
+    todos.splice(
+      todos.findIndex(
+        (a) => a.id === updateTodo.id,
+      ), 1, { id: updateTodo.id, details: updateTodo.details },
+    );
     setTodos([...todos]);
-    setIsUnderEdit(false);
+    setUpdateTodo({});
   };
 
   return (
-    <ListGroup variant="flush">
-      {
-        isUnderEdit
-          ? <Form handleChange={handleEdit} handleSubmit={handleEditComplete} input={editValue.details} buttonLabel="Edit todo" />
-          : todos.map((todo) => (
-            <div style={{ borderBottom: '1px solid #cfcfcf', height: 30 }}>
-              {todo.details}
-              <div style={{ float: 'right' }}>
-                <Button style={{ marginRight: 10 }} onClick={() => editTodoHandler(todo)}> / </Button>
-                <Button onClick={() => deleteTodoHandler(todo)}> X </Button>
-              </div>
-            </div>
-          ))
-      }
-    </ListGroup>
+    todos.map((todo) => (
+      updateTodo.id === todo.id
+        ? <Form onChange={handleUpdateChange} onSubmit={submitUpdate} input={updateTodo.details} buttonLabel="Update todo" />
+        : (
+          <div className={cx(styles.todoItem, 'ml-4', 'mr-4', 'mb-3')}>
+            {todo.details}
+            <span className={styles.todoActions}>
+              <TodoActions
+                onDeleteClick={() => handleDelete(todo)}
+                onEditClick={() => startUpdate(todo)}
+              />
+            </span>
+          </div>
+        )
+    ))
   );
 };
 
 TodoList.defaultProps = {
   todos: PropTypes.array,
+  setTodos: PropTypes.func,
 };
 
 export default TodoList;

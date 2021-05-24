@@ -1,17 +1,17 @@
-/* eslint-disable max-len */
 import React, { useState } from 'react';
+import cx from 'classnames';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
+import styles from './Todo.module.scss';
 
 function Todo() {
   const [todos, setTodos] = useState([]);
-  const [isUnderEdit, setIsUnderEdit] = useState(false);
 
   return (
     <>
-      <h1>Whats the plan for today</h1>
-      {!isUnderEdit && <TodoForm setTodos={setTodos} />}
-      <TodoList todos={todos} setTodos={setTodos} isUnderEdit={isUnderEdit} setIsUnderEdit={setIsUnderEdit} />
+      <h1 className={cx('mt-4', 'text-center', styles.heading)}>Todo List</h1>
+      <TodoForm setTodos={setTodos} />
+      <TodoList todos={todos} setTodos={setTodos} />
     </>
   );
 }
